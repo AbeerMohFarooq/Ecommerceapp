@@ -4,21 +4,22 @@ import type { Page } from '../App';
 interface ProfilePageProps {
   onNavigate: (page: Page) => void;
   cartCount: number;
+  onLogout?: () => void;
 }
 
-export function ProfilePage({ onNavigate, cartCount }: ProfilePageProps) {
+export function ProfilePage({ onNavigate, cartCount, onLogout }: ProfilePageProps) {
   const menuItems = [
     {
       icon: User,
       label: 'Personal Information',
       description: 'Update your details',
-      onClick: () => {}
+      onClick: () => onNavigate('editProfile')
     },
     {
       icon: MapPin,
       label: 'Saved Addresses',
       description: '2 addresses saved',
-      onClick: () => {}
+      onClick: () => onNavigate('addresses')
     },
     {
       icon: CreditCard,
@@ -160,7 +161,7 @@ export function ProfilePage({ onNavigate, cartCount }: ProfilePageProps) {
         </div>
 
         {/* Logout Button */}
-        <button className="w-full flex items-center justify-center gap-2 bg-white text-red-600 py-4 rounded-xl font-semibold border border-red-200 hover:bg-red-50 transition-colors">
+        <button className="w-full flex items-center justify-center gap-2 bg-white text-red-600 py-4 rounded-xl font-semibold border border-red-200 hover:bg-red-50 transition-colors" onClick={onLogout}>
           <LogOut className="w-5 h-5" />
           Logout
         </button>

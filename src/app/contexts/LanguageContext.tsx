@@ -16,6 +16,12 @@ const translations = {
     'nav.orders': 'Orders',
     'nav.cart': 'Cart',
     'nav.profile': 'Profile',
+    'nav.wishlist': 'Wishlist',
+    
+    // Header
+    'header.freeShipping': '🎉 Free Shipping on Orders Over KD 10',
+    'header.tagline': 'Premium Shopping Experience',
+    'header.hello': 'Hello',
     
     // Home Page
     'home.title': 'Kuwait Store',
@@ -43,6 +49,9 @@ const translations = {
     'category.jewelry': 'Jewelry',
     'category.perfumes': 'Perfumes',
     'category.food': 'Food',
+    'categories.title': 'Categories',
+    'categories.noProducts': 'No products in this category',
+    'categories.comingSoon': 'New products coming soon!',
     
     // Product Details
     'product.back': 'Back',
@@ -304,6 +313,12 @@ const translations = {
     'nav.orders': 'الطلبات',
     'nav.cart': 'السلة',
     'nav.profile': 'الملف الشخصي',
+    'nav.wishlist': 'المفضلة',
+    
+    // Header
+    'header.freeShipping': '🎉 توصيل مجاني للطلبات فوق 10 د.ك',
+    'header.tagline': 'تجربة تسوق فاخرة',
+    'header.hello': 'مرحباً',
     
     // Home Page
     'home.title': 'متجر الكويت',
@@ -331,6 +346,9 @@ const translations = {
     'category.jewelry': 'مجوهرات',
     'category.perfumes': 'عطور',
     'category.food': 'مأكولات',
+    'categories.title': 'الفئات',
+    'categories.noProducts': 'لا توجد منتجات في هذه الفئة',
+    'categories.comingSoon': 'منتجات جديدة قادمة قريبًا!',
     
     // Product Details
     'product.back': 'رجوع',

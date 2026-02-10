@@ -13,13 +13,20 @@ import { OrderDetailPage } from './components/OrderDetailPage';
 import { NotificationsPage } from './components/NotificationsPage';
 import { SettingsPage } from './components/SettingsPage';
 import { OrderSuccessPage } from './components/OrderSuccessPage';
+import { EditProfilePage } from './components/EditProfilePage';
+import { ChangePasswordPage } from './components/ChangePasswordPage';
+import { AddressesPage } from './components/AddressesPage';
+import { AddAddressPage } from './components/AddAddressPage';
+import { CategoriesPage } from './components/CategoriesPage';
 import { Navigation } from './components/Navigation';
+import { DesktopHeader } from './components/DesktopHeader';
+import { Breadcrumbs } from './components/Breadcrumbs';
 import { LiveChat } from './components/LiveChat';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { WishlistProvider } from './contexts/WishlistContext';
 import { productApi } from './services/productApi';
 
-export type Page = 'onboarding' | 'login' | 'home' | 'search' | 'product' | 'cart' | 'checkout' | 'profile' | 'orders' | 'orderDetail' | 'wishlist' | 'notifications' | 'settings' | 'success';
+export type Page = 'onboarding' | 'login' | 'home' | 'search' | 'categories' | 'product' | 'cart' | 'checkout' | 'profile' | 'editProfile' | 'changePassword' | 'addresses' | 'addAddress' | 'orders' | 'orderDetail' | 'wishlist' | 'notifications' | 'settings' | 'success';
 
 export interface Product {
   id: string;
@@ -46,6 +53,7 @@ export default function App() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
+  const [editingAddress, setEditingAddress] = useState<any>(null);
 
   // Load products on mount
   useState(() => {
@@ -117,6 +125,13 @@ export default function App() {
     setCurrentPage('success');
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setCartItems([]);
+    setCartCount(0);
+    setCurrentPage('login');
+  };
+
   const cartTotal = cartItems.reduce((sum, item) => {
     const itemPrice = item.discount 
       ? item.price * (1 - item.discount / 100) 
@@ -128,6 +143,24 @@ export default function App() {
     <LanguageProvider>
       <WishlistProvider>
         <div className="min-h-screen bg-gray-50">
+          {/* Desktop Header - Show on all pages except onboarding, login, success */}
+          {!['onboarding', 'login', 'success'].includes(currentPage) && (
+            <>
+              <DesktopHeader
+                currentPage={currentPage}
+                onNavigate={navigateToPage}
+                cartCount={cartCount}
+                onLogout={handleLogout}
+                isLoggedIn={isLoggedIn}
+              />
+              <Breadcrumbs
+                currentPage={currentPage}
+                onNavigate={navigateToPage}
+                productName={selectedProduct?.name}
+              />
+            </>
+          )}
+
           {currentPage === 'onboarding' && (
             <OnboardingPage 
               onComplete={handleOnboardingComplete}
@@ -206,6 +239,7 @@ export default function App() {
             <ProfilePage 
               onNavigate={navigateToPage}
               cartCount={cartCount}
+              onLogout={handleLogout}
             />
           )}
           
@@ -242,6 +276,45 @@ export default function App() {
             <SettingsPage
               onNavigate={navigateToPage}
               cartCount={cartCount}
+            />
+          )}
+
+          {currentPage === 'editProfile' && (
+            <EditProfilePage
+              onNavigate={navigateToPage}
+              cartCount={cartCount}
+            />
+          )}
+
+          {currentPage === 'changePassword' && (
+            <ChangePasswordPage
+              onNavigate={navigateToPage}
+              cartCount={cartCount}
+            />
+          )}
+
+          {currentPage === 'addresses' && (
+            <AddressesPage
+              onNavigate={navigateToPage}
+              onEditAddress={setEditingAddress}
+              cartCount={cartCount}
+            />
+          )}
+
+          {currentPage === 'addAddress' && (
+            <AddAddressPage
+              onNavigate={navigateToPage}
+              cartCount={cartCount}
+              editAddress={editingAddress}
+            />
+          )}
+
+          {currentPage === 'categories' && (
+            <CategoriesPage
+              onNavigate={navigateToPage}
+              onViewProduct={viewProduct}
+              cartCount={cartCount}
+              products={products}
             />
           )}
 
