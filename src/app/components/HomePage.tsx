@@ -1,13 +1,18 @@
+import { useState } from 'react';
 import { Search, ShoppingCart, Menu, Star, Tag } from 'lucide-react';
 import type { Product, Page } from '../App';
 import { LanguageToggle } from './LanguageToggle';
 import { useLanguage } from '../contexts/LanguageContext';
+import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+import { MobileMenuSheet } from './MobileMenuSheet';
 
 interface HomePageProps {
   onViewProduct: (product: Product) => void;
   onAddToCart: (product: Product) => void;
   cartCount: number;
   onNavigate: (page: Page) => void;
+  onLogout: () => void;
+  isLoggedIn: boolean;
 }
 
 const products: Product[] = [
@@ -114,19 +119,32 @@ const categories = [
   { name: 'Food', icon: '🍰', color: 'bg-orange-100' }
 ];
 
-export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate }: HomePageProps) {
+export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate, onLogout, isLoggedIn }: HomePageProps) {
   const { t, isRTL } = useLanguage();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="pb-20 md:pb-8">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+      {/* Mobile Header */}
+      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-40 md:hidden transition-colors">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <button className="md:hidden">
-                <Menu className="w-6 h-6 text-gray-700" />
-              </button>
+              <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+                <SheetTrigger asChild>
+                  <button className="md:hidden">
+                    <Menu className="w-6 h-6 text-gray-700" />
+                  </button>
+                </SheetTrigger>
+                <SheetContent side={isRTL ? 'right' : 'left'} className="p-0 w-[300px] sm:w-[350px]">
+                  <MobileMenuSheet 
+                    isLoggedIn={isLoggedIn}
+                    onNavigate={onNavigate} 
+                    onLogout={onLogout} 
+                    onClose={() => setIsMenuOpen(false)} 
+                  />
+                </SheetContent>
+              </Sheet>
               <h1 className="text-2xl font-bold text-emerald-600">{t('home.title')}</h1>
             </div>
             <div className="flex items-center gap-3">
@@ -174,12 +192,22 @@ export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate }: 
 
         {/* Categories */}
         <div className="mt-8">
-          <h3 className="font-semibold text-lg mb-4">{t('home.shopCategory')}</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-lg">{t('home.shopCategory')}</h3>
+            <button 
+              onClick={() => onNavigate('categories')}
+              className="text-emerald-600 text-sm font-medium hover:text-emerald-700 transition-colors"
+            >
+              {t('home.seeAll')}
+            </button>
+          </div>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
             {categories.map((category) => (
               <button
                 key={category.name}
-                className={`${category.color} rounded-xl p-4 flex flex-col items-center gap-2 hover:scale-105 transition-transform`}
+                onClick={() => onNavigate('categories')}
+                className={`${category.color} rounded-xl p-4 flex flex-col items-center gap-2 hover:scale-105 transition-transform active:scale-95`}
+                title={`Browse ${category.name}`}
               >
                 <span className="text-3xl">{category.icon}</span>
                 <span className="text-sm font-medium text-gray-700">{t(`category.${category.name.toLowerCase()}`)}</span>
@@ -192,14 +220,19 @@ export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate }: 
         <div className="mt-8">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-lg">{t('home.featured')}</h3>
-            <button className="text-emerald-600 text-sm font-medium">{t('home.seeAll')}</button>
+            <button 
+              onClick={() => onNavigate('categories')}
+              className="text-emerald-600 text-sm font-medium hover:text-emerald-700 transition-colors"
+            >
+              {t('home.seeAll')}
+            </button>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {products.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow"
+                className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg dark:hover:shadow-xl transition-shadow dark:hover:border-gray-600"
               >
                 <button
                   onClick={() => onViewProduct(product)}
@@ -219,14 +252,14 @@ export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate }: 
                   </div>
                   
                   <div className="p-3">
-                    <p className="text-xs text-gray-500 mb-1">{product.category}</p>
-                    <h4 className="font-medium text-sm mb-2 line-clamp-2 text-left">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{product.category}</p>
+                    <h4 className="font-medium text-sm mb-2 line-clamp-2 text-left text-gray-900 dark:text-white">
                       {product.name}
                     </h4>
                     
                     <div className="flex items-center gap-1 mb-2">
                       <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                      <span className="text-xs text-gray-600">
+                      <span className="text-xs text-gray-600 dark:text-gray-400">
                         {product.rating} ({product.reviews})
                       </span>
                     </div>
@@ -235,15 +268,15 @@ export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate }: 
                       <div>
                         {product.discount ? (
                           <div>
-                            <p className="text-xs text-gray-400 line-through">
+                            <p className="text-xs text-gray-400 dark:text-gray-500 line-through">
                               {t('common.kd')} {product.price.toFixed(3)}
                             </p>
-                            <p className="font-bold text-emerald-600">
+                            <p className="font-bold text-emerald-600 dark:text-emerald-400">
                               {t('common.kd')} {(product.price * (1 - product.discount / 100)).toFixed(3)}
                             </p>
                           </div>
                         ) : (
-                          <p className="font-bold text-emerald-600">
+                          <p className="font-bold text-emerald-600 dark:text-emerald-400">
                             {t('common.kd')} {product.price.toFixed(3)}
                           </p>
                         )}

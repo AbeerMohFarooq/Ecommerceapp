@@ -1,6 +1,7 @@
 import { ArrowLeft, Globe, Bell, Lock, Shield, HelpCircle, Mail, MessageSquare, Moon, Sun } from 'lucide-react';
 import { useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 import type { Page } from '../App';
 
 interface SettingsPageProps {
@@ -10,15 +11,17 @@ interface SettingsPageProps {
 
 export function SettingsPage({ onNavigate, cartCount }: SettingsPageProps) {
   const { t, isRTL, language, toggleLanguage } = useLanguage();
-  const [darkMode, setDarkMode] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
   const [pushNotifications, setPushNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [smsNotifications, setSmsNotifications] = useState(false);
 
+  const isDarkMode = resolvedTheme === 'dark';
+
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pb-20 md:pb-8 transition-colors">
+      {/* Mobile Header */}
+      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-40 md:hidden transition-colors">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center gap-3">
             <button onClick={() => onNavigate('profile')} className="text-gray-700">
@@ -31,47 +34,47 @@ export function SettingsPage({ onNavigate, cartCount }: SettingsPageProps) {
 
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
         {/* General Settings */}
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="p-4 border-b border-gray-200">
-            <h2 className="font-bold text-lg">{t('settings.general')}</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-colors">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="font-bold text-lg text-gray-900 dark:text-white">{t('settings.general')}</h2>
           </div>
           
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
             <button
               onClick={toggleLanguage}
-              className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center">
-                  <Globe className="w-5 h-5 text-emerald-600" />
+                <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900 rounded-lg flex items-center justify-center">
+                  <Globe className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div className="text-left">
-                  <p className="font-medium">{t('profile.language')}</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="font-medium text-gray-900 dark:text-white">{t('profile.language')}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     {language === 'en' ? 'English' : 'العربية'}
                   </p>
                 </div>
               </div>
-              <span className="text-gray-400">›</span>
+              <span className="text-gray-400 dark:text-gray-500">›</span>
             </button>
 
             <div className="flex items-center justify-between p-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
-                  {darkMode ? <Moon className="w-5 h-5 text-purple-600" /> : <Sun className="w-5 h-5 text-purple-600" />}
+                <div className="w-10 h-10 bg-purple-50 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                  {isDarkMode ? <Moon className="w-5 h-5 text-purple-600 dark:text-purple-400" /> : <Sun className="w-5 h-5 text-purple-600 dark:text-purple-400" />}
                 </div>
                 <div>
-                  <p className="font-medium">{t('settings.darkMode')}</p>
-                  <p className="text-sm text-gray-600">{t('settings.darkModeDesc')}</p>
+                  <p className="font-medium text-gray-900 dark:text-white">{t('settings.darkMode')}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{t('settings.darkModeDesc')}</p>
                 </div>
               </div>
               <button
-                onClick={() => setDarkMode(!darkMode)}
+                onClick={() => setTheme(isDarkMode ? 'light' : 'dark')}
                 className={`relative w-12 h-6 rounded-full transition-colors ${
-                  darkMode ? 'bg-emerald-600' : 'bg-gray-300'
+                  isDarkMode ? 'bg-emerald-600' : 'bg-gray-300'
                 }`}
               >
-                <div className={`absolute top-0.5 ${isRTL ? (darkMode ? 'right-0.5' : 'right-6') : (darkMode ? 'left-6' : 'left-0.5')} w-5 h-5 bg-white rounded-full transition-all`}></div>
+                <div className={`absolute top-0.5 ${isRTL ? (isDarkMode ? 'right-0.5' : 'right-6') : (isDarkMode ? 'left-6' : 'left-0.5')} w-5 h-5 bg-white rounded-full transition-all`}></div>
               </button>
             </div>
           </div>

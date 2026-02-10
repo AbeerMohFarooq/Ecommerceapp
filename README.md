@@ -1,11 +1,45 @@
+# Kuwait E-commerce App Starter Kit
 
-  # E-commerce App Development Plan
+This project is a feature-rich, production-ready e-commerce starter kit built with React, Vite, and Tailwind CSS. It is specifically designed for the Kuwaiti market, with full bilingual (English/Arabic) support and RTL layouts.
 
-  This is a code bundle for E-commerce App Development Plan. The original project is available at https://www.figma.com/design/3PbIa3ZBEOfyAQDZJuZkKD/E-commerce-App-Development-Plan.
+The goal of this starter kit is to provide a modern, customizable, and robust foundation for developers to build and deploy e-commerce solutions for businesses in Kuwait.
 
-  ## Running the code
+## ✨ Key Features
 
-  Run `npm i` to install the dependencies.
+*   🌐 **Full Bilingual & RTL Support**: Seamlessly switch between English and Arabic with a dynamic layout that adapts to LTR/RTL.
+*   🇰🇼 **Kuwait-Specific**: Includes KWD currency formatting and guides for integrating with local payment gateways like KNET.
+*   🛒 **Complete E-commerce Flow**: From product browsing and a detailed product page to a multi-step checkout and order history.
+*   ❤️ **Wishlist Functionality**: Allows users to save their favorite items.
+*   💬 **Live Chat Widget**: A built-in chat widget for customer support.
+*   📱 **Responsive & Modern UI**: A clean, mobile-first design built with shadcn/ui components.
+*   🔧 **Backend Ready**: Uses a mock API for development but includes a comprehensive `API_INTEGRATION_GUIDE.md` for connecting to a real backend.
 
-  Run `npm run dev` to start the development server.
-  
+## 🚀 Getting Started
+
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+2.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+    The app will be available at `http://localhost:5173`.
+
+## 🛠️ Project Structure & Documentation
+
+To help you navigate the codebase, several documentation files are included:
+
+*   **`FEATURES_DOCUMENTATION.md`**: A detailed list of all implemented features.
+*   **`API_INTEGRATION_GUIDE.md`**: Instructions for connecting the frontend to a real backend API and payment gateways.
+*   **`COMPONENT_MAP.md`**: A textual map of pages to the UI components they use.
+*   **`COMPONENT_DIAGRAM.md`**: A Mermaid diagram visualizing the component relationships.
+
+## 💻 Tech Stack
+
+*   **Framework**: React
+*   **Build Tool**: Vite
+*   **Styling**: Tailwind CSS
+*   **UI Components**: shadcn/ui
+*   **State Management**: React Context API

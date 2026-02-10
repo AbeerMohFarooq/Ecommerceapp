@@ -24,9 +24,10 @@ import { Breadcrumbs } from './components/Breadcrumbs';
 import { LiveChat } from './components/LiveChat';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { WishlistProvider } from './contexts/WishlistContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { productApi } from './services/productApi';
 
-export type Page = 'onboarding' | 'login' | 'home' | 'search' | 'categories' | 'product' | 'cart' | 'checkout' | 'profile' | 'editProfile' | 'changePassword' | 'addresses' | 'addAddress' | 'orders' | 'orderDetail' | 'wishlist' | 'notifications' | 'settings' | 'success';
+export type Page = 'onboarding' | 'login' | 'home' | 'search' | 'categories' | 'product' | 'cart' | 'checkout' | 'profile' | 'editProfile' | 'changePassword' | 'addresses' | 'addAddress' | 'editAddress' | 'orders' | 'orderDetail' | 'wishlist' | 'notifications' | 'settings' | 'success';
 
 export interface Product {
   id: string;
@@ -140,9 +141,10 @@ export default function App() {
   }, 0);
 
   return (
-    <LanguageProvider>
-      <WishlistProvider>
-        <div className="min-h-screen bg-gray-50">
+    <ThemeProvider>
+      <LanguageProvider>
+        <WishlistProvider>
+          <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors">
           {/* Desktop Header - Show on all pages except onboarding, login, success */}
           {!['onboarding', 'login', 'success'].includes(currentPage) && (
             <>
@@ -181,6 +183,8 @@ export default function App() {
               onAddToCart={addToCart}
               cartCount={cartCount}
               onNavigate={navigateToPage}
+              onLogout={handleLogout}
+              isLoggedIn={isLoggedIn}
             />
           )}
 
@@ -329,7 +333,8 @@ export default function App() {
             </>
           )}
         </div>
-      </WishlistProvider>
-    </LanguageProvider>
+        </WishlistProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }

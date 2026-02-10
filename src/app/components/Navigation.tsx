@@ -21,7 +21,7 @@ export function Navigation({ currentPage, onNavigate, cartCount }: NavigationPro
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:hidden z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 md:hidden z-50 transition-colors">
       <div className="grid grid-cols-4 h-16">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -31,8 +31,8 @@ export function Navigation({ currentPage, onNavigate, cartCount }: NavigationPro
             <button
               key={item.id}
               onClick={() => onNavigate(item.id)}
-              className={`flex flex-col items-center justify-center gap-1 ${
-                isActive ? 'text-emerald-600' : 'text-gray-600'
+              className={`flex flex-col items-center justify-center gap-1 transition-colors ${
+                isActive ? 'text-emerald-600 dark:text-emerald-400' : 'text-gray-600 dark:text-gray-400'
               }`}
             >
               <div className="relative">

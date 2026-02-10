@@ -89,7 +89,7 @@ export function LiveChat() {
 
   return (
     <div
-      className={`fixed bottom-24 ${isRTL ? 'left-4' : 'right-4'} md:bottom-8 w-80 md:w-96 bg-white rounded-2xl shadow-2xl z-50 flex flex-col transition-all ${
+      className={`fixed bottom-24 ${isRTL ? 'left-4' : 'right-4'} md:bottom-8 w-80 md:w-96 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl dark:shadow-xl z-50 flex flex-col transition-all ${
         isMinimized ? 'h-14' : 'h-96 md:h-[500px]'
       }`}
     >
@@ -126,22 +126,22 @@ export function LiveChat() {
       {!isMinimized && (
         <>
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 dark:bg-gray-900 transition-colors">
             {messages.map((msg) => (
               <div
                 key={msg.id}
                 className={`flex ${msg.sender === 'user' ? (isRTL ? 'justify-start' : 'justify-end') : (isRTL ? 'justify-end' : 'justify-start')}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                  className={`max-w-[80%] rounded-2xl px-4 py-2 transition-colors ${
                     msg.sender === 'user'
                       ? 'bg-emerald-600 text-white'
-                      : 'bg-white text-gray-800 border border-gray-200'
+                      : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-600'
                   }`}
                 >
                   <p className="text-sm">{msg.text}</p>
                   <p className={`text-xs mt-1 ${
-                    msg.sender === 'user' ? 'text-emerald-100' : 'text-gray-500'
+                    msg.sender === 'user' ? 'text-emerald-100' : 'text-gray-500 dark:text-gray-400 transition-colors'
                   }`}>
                     {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </p>
@@ -151,11 +151,11 @@ export function LiveChat() {
             
             {isTyping && (
               <div className={`flex ${isRTL ? 'justify-end' : 'justify-start'}`}>
-                <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3">
+                <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-2xl px-4 py-3 transition-colors">
                   <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce transition-colors" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce transition-colors" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce transition-colors" style={{ animationDelay: '300ms' }}></div>
                   </div>
                 </div>
               </div>
@@ -164,7 +164,7 @@ export function LiveChat() {
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t border-gray-200 bg-white rounded-b-2xl">
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-b-2xl transition-colors">
             <div className="flex gap-2">
               <input
                 type="text"
@@ -172,12 +172,12 @@ export function LiveChat() {
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                 placeholder={t('chat.placeholder')}
-                className="flex-1 px-4 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
+                className="flex-1 px-4 py-2 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 placeholder-gray-400 dark:placeholder-gray-500 text-sm transition-colors"
               />
               <button
                 onClick={handleSend}
                 disabled={!message.trim()}
-                className="w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center hover:bg-emerald-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed"
               >
                 <Send className="w-4 h-4" />
               </button>

@@ -57,12 +57,12 @@ export function OnboardingPage({ onComplete, onNavigate }: OnboardingPageProps) 
   const slide = slides[currentSlide];
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-gray-950 flex flex-col transition-colors">
       {/* Skip Button */}
       <div className="p-4 flex justify-end">
         <button
           onClick={skip}
-          className="text-gray-600 font-medium hover:text-gray-800"
+          className="text-gray-600 dark:text-gray-400 font-medium hover:text-gray-800 dark:hover:text-gray-300 transition-colors"
         >
           {t('onboarding.skip')}
         </button>
@@ -74,11 +74,11 @@ export function OnboardingPage({ onComplete, onNavigate }: OnboardingPageProps) 
           <span className="text-8xl">{slide.emoji}</span>
         </div>
 
-        <h2 className="text-3xl font-bold text-center mb-4 text-gray-900">
+        <h2 className="text-3xl font-bold text-center mb-4 text-gray-900 dark:text-white transition-colors">
           {t(slide.titleKey)}
         </h2>
 
-        <p className="text-center text-gray-600 text-lg max-w-md mb-8">
+        <p className="text-center text-gray-600 dark:text-gray-400 text-lg max-w-md mb-8 transition-colors">
           {t(slide.descKey)}
         </p>
 
@@ -91,7 +91,7 @@ export function OnboardingPage({ onComplete, onNavigate }: OnboardingPageProps) 
               className={`h-2 rounded-full transition-all ${
                 index === currentSlide 
                   ? 'w-8 bg-emerald-600' 
-                  : 'w-2 bg-gray-300'
+                  : 'w-2 bg-gray-300 dark:bg-gray-700'
               }`}
             />
           ))}
@@ -103,7 +103,7 @@ export function OnboardingPage({ onComplete, onNavigate }: OnboardingPageProps) 
         <button
           onClick={prevSlide}
           disabled={currentSlide === 0}
-          className={`flex items-center gap-2 px-4 py-2 text-gray-600 font-medium hover:text-gray-800 disabled:opacity-0 ${
+          className={`flex items-center gap-2 px-4 py-2 text-gray-600 dark:text-gray-400 font-medium hover:text-gray-800 dark:hover:text-gray-300 disabled:opacity-0 transition-colors ${
             isRTL ? 'flex-row-reverse' : ''
           }`}
         >
@@ -113,7 +113,7 @@ export function OnboardingPage({ onComplete, onNavigate }: OnboardingPageProps) 
 
         <button
           onClick={nextSlide}
-          className={`flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-700 transition-colors ${
+          className={`flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors ${
             isRTL ? 'flex-row-reverse' : ''
           }`}
         >

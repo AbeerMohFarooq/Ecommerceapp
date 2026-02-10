@@ -26,7 +26,7 @@ export function DesktopHeader({ currentPage, onNavigate, cartCount, onLogout, is
   ];
 
   return (
-    <header className="hidden md:block bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <header className="hidden md:block bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 shadow-sm dark:shadow-md transition-colors">
       {/* Top Bar */}
       <div className="bg-emerald-600 text-white">
         <div className="max-w-7xl mx-auto px-4 py-2">
@@ -61,21 +61,21 @@ export function DesktopHeader({ currentPage, onNavigate, cartCount, onLogout, is
               <span className="text-2xl">🛍️</span>
             </div>
             <div className="text-left">
-              <h1 className="font-bold text-xl text-gray-900">Kuwait Store</h1>
-              <p className="text-xs text-gray-600">{t('header.tagline')}</p>
+              <h1 className="font-bold text-xl text-gray-900 dark:text-white">Kuwait Store</h1>
+              <p className="text-xs text-gray-600 dark:text-gray-400">{t('header.tagline')}</p>
             </div>
           </button>
 
           {/* Search Bar */}
           <div className="flex-1 max-w-2xl">
             <div className="relative">
-              <Search className={`absolute ${isRTL ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400`} />
+              <Search className={`absolute ${isRTL ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500`} />
               <input
                 type="text"
                 placeholder={t('home.search')}
                 onClick={() => onNavigate('search')}
                 readOnly
-                className={`w-full ${isRTL ? 'pr-12 pl-4' : 'pl-12 pr-4'} py-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white cursor-pointer hover:border-emerald-300 transition-colors`}
+                className={`w-full ${isRTL ? 'pr-12 pl-4' : 'pl-12 pr-4'} py-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white dark:focus:bg-gray-700 cursor-pointer hover:border-emerald-300 dark:hover:border-emerald-500 transition-colors text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400`}
               />
             </div>
           </div>
@@ -131,10 +131,10 @@ export function DesktopHeader({ currentPage, onNavigate, cartCount, onLogout, is
                         className="fixed inset-0 z-40"
                         onClick={() => setShowUserMenu(false)}
                       />
-                      <div className={`absolute ${isRTL ? 'left-0' : 'right-0'} top-full mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50`}>
-                        <div className="px-4 py-3 border-b border-gray-100">
-                          <p className="font-semibold text-gray-900">Sarah Ahmed</p>
-                          <p className="text-sm text-gray-600">sarah.ahmed@email.com</p>
+                      <div className={`absolute ${isRTL ? 'left-0' : 'right-0'} top-full mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-xl dark:shadow-2xl border border-gray-200 dark:border-gray-700 py-2 z-50 transition-colors`}>
+                        <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-700 transition-colors">
+                          <p className="font-semibold text-gray-900 dark:text-white transition-colors">Sarah Ahmed</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors">sarah.ahmed@email.com</p>
                         </div>
 
                         <button
@@ -142,10 +142,10 @@ export function DesktopHeader({ currentPage, onNavigate, cartCount, onLogout, is
                             onNavigate('profile');
                             setShowUserMenu(false);
                           }}
-                          className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+                          className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
                         >
-                          <User className="w-5 h-5 text-gray-600" />
-                          <span className="font-medium">{t('nav.profile')}</span>
+                          <User className="w-5 h-5 text-gray-600 dark:text-gray-400 transition-colors" />
+                          <span className="font-medium text-gray-900 dark:text-white transition-colors">{t('nav.profile')}</span>
                         </button>
 
                         <button
@@ -153,10 +153,10 @@ export function DesktopHeader({ currentPage, onNavigate, cartCount, onLogout, is
                             onNavigate('orders');
                             setShowUserMenu(false);
                           }}
-                          className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+                          className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
                         >
-                          <Package className="w-5 h-5 text-gray-600" />
-                          <span className="font-medium">{t('nav.orders')}</span>
+                          <Package className="w-5 h-5 text-gray-600 dark:text-gray-400 transition-colors" />
+                          <span className="font-medium text-gray-900 dark:text-white transition-colors">{t('nav.orders')}</span>
                         </button>
 
                         <button
@@ -164,10 +164,10 @@ export function DesktopHeader({ currentPage, onNavigate, cartCount, onLogout, is
                             onNavigate('wishlist');
                             setShowUserMenu(false);
                           }}
-                          className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+                          className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
                         >
-                          <Heart className="w-5 h-5 text-gray-600" />
-                          <span className="font-medium">{t('nav.wishlist')}</span>
+                          <Heart className="w-5 h-5 text-gray-600 dark:text-gray-400 transition-colors" />
+                          <span className="font-medium text-gray-900 dark:text-white transition-colors">{t('nav.wishlist')}</span>
                         </button>
 
                         <button
@@ -175,19 +175,19 @@ export function DesktopHeader({ currentPage, onNavigate, cartCount, onLogout, is
                             onNavigate('settings');
                             setShowUserMenu(false);
                           }}
-                          className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+                          className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
                         >
-                          <Settings className="w-5 h-5 text-gray-600" />
-                          <span className="font-medium">{t('settings.title')}</span>
+                          <Settings className="w-5 h-5 text-gray-600 dark:text-gray-400 transition-colors" />
+                          <span className="font-medium text-gray-900 dark:text-white transition-colors">{t('settings.title')}</span>
                         </button>
 
-                        <div className="border-t border-gray-100 mt-2 pt-2">
+                        <div className="border-t border-gray-100 dark:border-gray-700 mt-2 pt-2 transition-colors">
                           <button
                             onClick={() => {
                               onLogout();
                               setShowUserMenu(false);
                             }}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 transition-colors text-left text-red-600"
+                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-left text-red-600 dark:text-red-400"
                           >
                             <LogOut className="w-5 h-5" />
                             <span className="font-medium">{t('profile.logout')}</span>
@@ -209,63 +209,8 @@ export function DesktopHeader({ currentPage, onNavigate, cartCount, onLogout, is
           </div>
         </div>
       </div>
-
-      {/* Categories Bar */}
-      <div className="border-t border-gray-200 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center gap-6 overflow-x-auto py-3">
-            <div className="relative">
-              <button
-                onClick={() => setShowCategoriesMenu(!showCategoriesMenu)}
-                onMouseEnter={() => setShowCategoriesMenu(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium"
-              >
-                <Menu className="w-5 h-5" />
-                <span>{t('categories.title')}</span>
-              </button>
-
-              {/* Categories Dropdown */}
-              {showCategoriesMenu && (
-                <>
-                  <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setShowCategoriesMenu(false)}
-                  />
-                  <div
-                    className={`absolute ${isRTL ? 'right-0' : 'left-0'} top-full mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50`}
-                    onMouseLeave={() => setShowCategoriesMenu(false)}
-                  >
-                    {categories.map((category) => (
-                      <button
-                        key={category.name}
-                        onClick={() => {
-                          onNavigate('categories');
-                          setShowCategoriesMenu(false);
-                        }}
-                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
-                      >
-                        <span className="text-2xl">{category.icon}</span>
-                        <span className="font-medium">{t(`category.${category.name.toLowerCase()}`)}</span>
-                      </button>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-
-            {categories.map((category) => (
-              <button
-                key={category.name}
-                onClick={() => onNavigate('categories')}
-                className="flex items-center gap-2 px-3 py-1 hover:text-emerald-600 transition-colors whitespace-nowrap"
-              >
-                <span className="text-lg">{category.icon}</span>
-                <span className="font-medium text-sm">{t(`category.${category.name.toLowerCase()}`)}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+      
+      
     </header>
   );
 }

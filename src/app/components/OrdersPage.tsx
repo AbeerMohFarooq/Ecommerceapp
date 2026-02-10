@@ -78,11 +78,11 @@ const statusConfig = {
 
 export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
   return (
-    <div className="pb-20 md:pb-8 min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200">
+    <div className="pb-20 md:pb-8 min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors">
+      {/* Mobile Header */}
+      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 md:hidden transition-colors">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <h1 className="text-xl font-bold">My Orders</h1>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">My Orders</h1>
         </div>
       </header>
 
@@ -94,8 +94,8 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
               key={filter}
               className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors ${
                 filter === 'All'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-white text-gray-700 border border-gray-200 hover:border-emerald-600'
+                  ? 'bg-emerald-600 text-white hover:bg-emerald-700 dark:hover:bg-emerald-600'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-emerald-600 dark:hover:border-emerald-500'
               }`}
             >
               {filter}
@@ -107,11 +107,11 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
         {orders.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-6xl mb-4">📦</div>
-            <h2 className="text-2xl font-bold mb-2">No orders yet</h2>
-            <p className="text-gray-600 mb-6">Start shopping to see your orders here!</p>
+            <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">No orders yet</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">Start shopping to see your orders here!</p>
             <button
               onClick={() => onNavigate('home')}
-              className="bg-emerald-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-emerald-700 transition-colors"
+              className="bg-emerald-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors"
             >
               Start Shopping
             </button>
@@ -125,18 +125,18 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
               return (
                 <div
                   key={order.id}
-                  className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg dark:hover:shadow-xl transition-all"
                 >
                   <div className="p-4">
                     {/* Order Header */}
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <p className="font-bold text-lg">{order.id}</p>
-                        <p className="text-sm text-gray-600">{order.date}</p>
+                        <p className="font-bold text-lg text-gray-900 dark:text-white">{order.id}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{order.date}</p>
                       </div>
-                      <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${status.bgColor} ${status.borderColor} border`}>
-                        <StatusIcon className={`w-4 h-4 ${status.color}`} />
-                        <span className={`text-sm font-medium ${status.color}`}>
+                      <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${status.bgColor} dark:bg-opacity-20 ${status.borderColor} border dark:border-opacity-40`}>
+                        <StatusIcon className={`w-4 h-4 ${status.color} dark:opacity-90`} />
+                        <span className={`text-sm font-medium ${status.color} dark:text-opacity-90`}>
                           {status.label}
                         </span>
                       </div>
@@ -144,7 +144,7 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
 
                     {/* Order Details */}
                     <div className="flex gap-4 mb-3">
-                      <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                      <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden flex-shrink-0">
                         <img
                           src={order.image}
                           alt="Order item"
@@ -152,14 +152,14 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm text-gray-600 mb-1">
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                           {order.items} {order.items === 1 ? 'item' : 'items'}
                         </p>
-                        <p className="font-bold text-emerald-600 text-lg">
+                        <p className="font-bold text-emerald-600 dark:text-emerald-400 text-lg">
                           KD {order.total.toFixed(3)}
                         </p>
                         {order.status !== 'cancelled' && (
-                          <p className="text-xs text-gray-600 mt-1">
+                          <p className="text-xs text-gray-600 dark:text-gray-500 mt-1">
                             Expected: {order.deliveryDate}
                           </p>
                         )}
@@ -168,16 +168,16 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
 
                     {/* Tracking Progress (for active orders) */}
                     {(order.status === 'processing' || order.status === 'shipping') && (
-                      <div className="mb-3 p-3 bg-gray-50 rounded-lg">
+                      <div className="mb-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg transition-colors">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-medium text-gray-700">Order Progress</span>
-                          <span className="text-xs text-gray-600">
+                          <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Order Progress</span>
+                          <span className="text-xs text-gray-600 dark:text-gray-400">
                             {order.status === 'processing' ? '50%' : '75%'}
                           </span>
                         </div>
-                        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="h-2 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-emerald-600 transition-all"
+                            className="h-full bg-emerald-600 dark:bg-emerald-500 transition-all"
                             style={{
                               width: order.status === 'processing' ? '50%' : '75%'
                             }}
@@ -188,17 +188,17 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
 
                     {/* Action Buttons */}
                     <div className="flex gap-2">
-                      <button className="flex-1 py-2.5 border border-gray-300 rounded-lg font-medium text-sm hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+                      <button className="flex-1 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg font-medium text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors flex items-center justify-center gap-2">
                         View Details
                         <ChevronRight className="w-4 h-4" />
                       </button>
                       {order.status === 'delivered' && (
-                        <button className="flex-1 py-2.5 bg-emerald-600 text-white rounded-lg font-medium text-sm hover:bg-emerald-700 transition-colors">
+                        <button className="flex-1 py-2.5 bg-emerald-600 text-white rounded-lg font-medium text-sm hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors">
                           Order Again
                         </button>
                       )}
                       {order.status === 'shipping' && (
-                        <button className="flex-1 py-2.5 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors">
+                        <button className="flex-1 py-2.5 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
                           Track Order
                         </button>
                       )}
@@ -211,25 +211,25 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
         )}
 
         {/* Help Section */}
-        <div className="mt-8 bg-white rounded-xl p-6 border border-gray-200">
-          <h3 className="font-bold text-lg mb-4">Need Help?</h3>
+        <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 transition-colors">
+          <h3 className="font-bold text-lg mb-4 text-gray-900 dark:text-white">Need Help?</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <button className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg hover:border-emerald-600 hover:bg-emerald-50 transition-colors">
-              <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center">
+            <button className="flex items-center gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-emerald-600 dark:hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors">
+              <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center">
                 <span className="text-xl">📞</span>
               </div>
               <div className="text-left">
-                <p className="font-medium text-sm">Contact Support</p>
-                <p className="text-xs text-gray-600">We're here to help</p>
+                <p className="font-medium text-sm text-gray-900 dark:text-white">Contact Support</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">We're here to help</p>
               </div>
             </button>
-            <button className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg hover:border-emerald-600 hover:bg-emerald-50 transition-colors">
-              <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center">
+            <button className="flex items-center gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-emerald-600 dark:hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors">
+              <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center">
                 <span className="text-xl">❓</span>
               </div>
               <div className="text-left">
-                <p className="font-medium text-sm">FAQs</p>
-                <p className="text-xs text-gray-600">Common questions</p>
+                <p className="font-medium text-sm text-gray-900 dark:text-white">FAQs</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Common questions</p>
               </div>
             </button>
           </div>

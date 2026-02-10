@@ -53,6 +53,9 @@ export function Breadcrumbs({ currentPage, onNavigate, productName }: Breadcrumb
   };
 
   const breadcrumbPath = getBreadcrumbPath(currentPage);
+  
+  // Filter out 'home' from the path since we show it separately
+  const filteredPath = breadcrumbPath.filter(crumb => crumb.page !== 'home');
 
   // Don't show breadcrumbs on certain pages
   if (['onboarding', 'login', 'home'].includes(currentPage)) {
@@ -60,39 +63,43 @@ export function Breadcrumbs({ currentPage, onNavigate, productName }: Breadcrumb
   }
 
   return (
-    <nav className="hidden md:block bg-white border-b border-gray-100">
+    <nav className="hidden md:block bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 transition-colors">
       <div className="max-w-7xl mx-auto px-4 py-3">
         <ol className="flex items-center gap-2 text-sm">
           <li>
             <button
               onClick={() => onNavigate('home')}
-              className="flex items-center gap-2 text-gray-600 hover:text-emerald-600 transition-colors"
+              className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
             >
               <Home className="w-4 h-4" />
               <span>{t('nav.home')}</span>
             </button>
           </li>
 
-          {breadcrumbPath.map((crumb, index) => {
-            const isLast = index === breadcrumbPath.length - 1;
-            const Icon = isRTL ? ChevronRight : ChevronRight;
+          {filteredPath.length > 0 && (
+            <>
+              {filteredPath.map((crumb, index) => {
+                const isLast = index === filteredPath.length - 1;
+                const Icon = ChevronRight;
 
-            return (
-              <li key={crumb.page} className="flex items-center gap-2">
-                <Icon className={`w-4 h-4 text-gray-400 ${isRTL ? 'rotate-180' : ''}`} />
-                {isLast ? (
-                  <span className="font-medium text-gray-900">{crumb.label}</span>
-                ) : (
-                  <button
-                    onClick={() => onNavigate(crumb.page)}
-                    className="text-gray-600 hover:text-emerald-600 transition-colors"
-                  >
-                    {crumb.label}
-                  </button>
-                )}
-              </li>
-            );
-          })}
+                return (
+                  <li key={crumb.page} className="flex items-center gap-2">
+                    <Icon className={`w-4 h-4 text-gray-400 dark:text-gray-600 ${isRTL ? 'rotate-180' : ''}`} />
+                    {isLast ? (
+                      <span className="font-medium text-gray-900 dark:text-white">{crumb.label}</span>
+                    ) : (
+                      <button
+                        onClick={() => onNavigate(crumb.page)}
+                        className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                      >
+                        {crumb.label}
+                      </button>
+                    )}
+                  </li>
+                );
+              })}
+            </>
+          )}
         </ol>
       </div>
     </nav>
