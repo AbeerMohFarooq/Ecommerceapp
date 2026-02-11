@@ -1,11 +1,11 @@
 {
-  "name": "@figma/my-make-file",
+  "name": "shop-easy-ui",
   "private": true,
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "build": "npm exec -- vite build"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -71,7 +71,7 @@
     "@vitejs/plugin-react": "4.7.0",
     "tailwindcss": "4.1.12",
     "typescript": "5.2.2",
-    "vite": "^5.4.21"
+    "vite": "5.4.21"
   },
   "peerDependencies": {
     "react": "18.3.1",
@@ -83,11 +83,6 @@
     },
     "react-dom": {
       "optional": true
-    }
-  },
-  "pnpm": {
-    "overrides": {
-      "vite": "6.3.5"
     }
   }
 }
