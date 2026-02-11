@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HomePage } from './components/HomePage';
 import { ProductDetailPage } from './components/ProductDetailPage';
 import { CartPage } from './components/CartPage';
@@ -46,20 +46,72 @@ export interface CartItem extends Product {
   quantity: number;
 }
 
+export interface Address {
+  id: string;
+  label: string;
+  name: string;
+  phone: string;
+  governorate: string;
+  area: string;
+  block: string;
+  street: string;
+  building: string;
+  floor?: string;
+  apartment?: string;
+  avenue?: string;
+  additionalDirections?: string;
+  paciNumber?: string;
+  isDefault: boolean;
+}
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('onboarding');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [productReturnPage, setProductReturnPage] = useState<Page>('home');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartCount, setCartCount] = useState(0);
   const [products, setProducts] = useState<Product[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
-  const [editingAddress, setEditingAddress] = useState<any>(null);
+  const [editingAddress, setEditingAddress] = useState<Address | null>(null);
+  const [addresses, setAddresses] = useState<Address[]>([
+    {
+      id: '1',
+      label: 'Home',
+      name: 'Sarah Ahmed',
+      phone: '+965 9999 8888',
+      governorate: 'Hawalli',
+      area: 'Salmiya',
+      block: '5',
+      street: '52',
+      building: '12',
+      floor: '2',
+      apartment: '4',
+      avenue: '3',
+      additionalDirections: 'Near Laila Gallery, white building',
+      isDefault: true
+    },
+    {
+      id: '2',
+      label: 'Office',
+      name: 'Sarah Ahmed',
+      phone: '+965 9999 8888',
+      governorate: 'Capital',
+      area: 'Kuwait City',
+      block: '3',
+      street: '15',
+      building: 'Tower A',
+      floor: '12',
+      apartment: '1205',
+      isDefault: false
+    }
+  ]);
 
   // Load products on mount
-  useState(() => {
+  useEffect(() => {
     productApi.getAllProducts().then(setProducts);
-  });
+  }, []);
 
   const addToCart = (product: Product) => {
     const existingItem = cartItems.find(item => item.id === product.id);
@@ -99,13 +151,25 @@ export default function App() {
     setCartItems(cartItems.filter(item => item.id !== productId));
   };
 
-  const viewProduct = (product: Product) => {
+  const viewProduct = (product: Product, returnPage: Page) => {
     setSelectedProduct(product);
+    setProductReturnPage(returnPage);
     setCurrentPage('product');
   };
 
   const navigateToPage = (page: Page) => {
+    if (page !== 'categories') {
+      setSelectedCategory(undefined);
+    }
+    if (page === 'addAddress') {
+      setEditingAddress(null);
+    }
     setCurrentPage(page);
+  };
+
+  const navigateToCategory = (category: string) => {
+    setSelectedCategory(category);
+    setCurrentPage('categories');
   };
 
   const handleLogin = (email: string, password: string) => {
@@ -131,6 +195,51 @@ export default function App() {
     setCartItems([]);
     setCartCount(0);
     setCurrentPage('login');
+  };
+
+  const saveAddress = (addressData: Omit<Address, 'id'> & { id?: string }) => {
+    if (addressData.id) {
+      setAddresses(prev =>
+        prev.map(addr => {
+          if (addr.id !== addressData.id) {
+            return addressData.isDefault ? { ...addr, isDefault: false } : addr;
+          }
+          return { ...addressData, id: addressData.id };
+        })
+      );
+    } else {
+      setAddresses(prev => {
+        const isFirstAddress = prev.length === 0;
+        const newAddress: Address = {
+          ...addressData,
+          id: `addr-${Date.now()}`,
+          isDefault: isFirstAddress ? true : addressData.isDefault
+        };
+        return [
+          ...prev.map(addr => (newAddress.isDefault ? { ...addr, isDefault: false } : addr)),
+          newAddress
+        ];
+      });
+    }
+    setEditingAddress(null);
+    setCurrentPage('addresses');
+  };
+
+  const setDefaultAddress = (id: string) => {
+    setAddresses(prev => prev.map(addr => ({ ...addr, isDefault: addr.id === id })));
+  };
+
+  const deleteAddress = (id: string) => {
+    setAddresses(prev => {
+      const nextAddresses = prev.filter(addr => addr.id !== id);
+      if (nextAddresses.length === 0) {
+        return nextAddresses;
+      }
+      if (!nextAddresses.some(addr => addr.isDefault)) {
+        nextAddresses[0] = { ...nextAddresses[0], isDefault: true };
+      }
+      return nextAddresses;
+    });
   };
 
   const cartTotal = cartItems.reduce((sum, item) => {
@@ -179,7 +288,9 @@ export default function App() {
 
           {currentPage === 'home' && (
             <HomePage 
-              onViewProduct={viewProduct}
+              products={products}
+              onViewProduct={(product) => viewProduct(product, 'home')}
+              onViewCategory={navigateToCategory}
               onAddToCart={addToCart}
               cartCount={cartCount}
               onNavigate={navigateToPage}
@@ -191,7 +302,7 @@ export default function App() {
           {currentPage === 'search' && (
             <SearchPage
               onNavigate={navigateToPage}
-              onViewProduct={viewProduct}
+              onViewProduct={(product) => viewProduct(product, 'search')}
               onAddToCart={addToCart}
               cartCount={cartCount}
               products={products}
@@ -201,7 +312,7 @@ export default function App() {
           {currentPage === 'product' && selectedProduct && (
             <ProductDetailPage 
               product={selectedProduct}
-              onBack={() => setCurrentPage('home')}
+              onBack={() => setCurrentPage(productReturnPage)}
               onAddToCart={addToCart}
               cartCount={cartCount}
               onNavigate={navigateToPage}
@@ -225,6 +336,7 @@ export default function App() {
             <CheckoutPage 
               cartItems={cartItems}
               cartTotal={cartTotal}
+              addresses={addresses}
               onBack={() => setCurrentPage('cart')}
               onComplete={handleCheckoutComplete}
               cartCount={cartCount}
@@ -300,25 +412,37 @@ export default function App() {
           {currentPage === 'addresses' && (
             <AddressesPage
               onNavigate={navigateToPage}
-              onEditAddress={setEditingAddress}
+              addresses={addresses}
+              onAddAddress={() => {
+                setEditingAddress(null);
+                setCurrentPage('addAddress');
+              }}
+              onEditAddress={(address) => {
+                setEditingAddress(address);
+                setCurrentPage('editAddress');
+              }}
+              onDeleteAddress={deleteAddress}
+              onSetDefaultAddress={setDefaultAddress}
               cartCount={cartCount}
             />
           )}
 
-          {currentPage === 'addAddress' && (
+          {(currentPage === 'addAddress' || currentPage === 'editAddress') && (
             <AddAddressPage
               onNavigate={navigateToPage}
+              onSaveAddress={saveAddress}
               cartCount={cartCount}
-              editAddress={editingAddress}
+              editAddress={currentPage === 'editAddress' ? editingAddress : null}
             />
           )}
 
           {currentPage === 'categories' && (
             <CategoriesPage
               onNavigate={navigateToPage}
-              onViewProduct={viewProduct}
+              onViewProduct={(product) => viewProduct(product, 'categories')}
               cartCount={cartCount}
               products={products}
+              selectedCategory={selectedCategory}
             />
           )}
 

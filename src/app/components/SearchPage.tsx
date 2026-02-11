@@ -21,7 +21,7 @@ export function SearchPage({ onNavigate, onViewProduct, onAddToCart, cartCount, 
   const [sortBy, setSortBy] = useState<'popular' | 'priceLow' | 'priceHigh' | 'rating'>('popular');
   const { t, isRTL } = useLanguage();
 
-  const categories = ['Fashion', 'Beauty', 'Electronics', 'Jewelry', 'Perfumes', 'Food'];
+  const categories = ['Fashion', 'Beauty', 'Electronics', 'Jewelry', 'Perfumes', 'Food', 'Watches', 'Accessories'];
 
   const handleCategoryChange = (category: string, checked: boolean) => {
     if (checked) {

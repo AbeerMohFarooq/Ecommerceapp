@@ -1,12 +1,13 @@
 import { ArrowLeft, MapPin, Save, Home, Briefcase, User } from 'lucide-react';
 import { useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import type { Page } from '../App';
+import type { Address, Page } from '../App';
 
 interface AddAddressPageProps {
   onNavigate: (page: Page) => void;
+  onSaveAddress: (address: Omit<Address, 'id'> & { id?: string }) => void;
   cartCount: number;
-  editAddress?: any;
+  editAddress?: Address | null;
 }
 
 const kuwaitGovernorates = [
@@ -27,7 +28,7 @@ const areasByGovernorate: { [key: string]: string[] } = {
   'Jahra': ['Jahra', 'Sulaibiya', 'Qasr', 'Oyoun', 'Nasseem', 'Amghara', 'Taima']
 };
 
-export function AddAddressPage({ onNavigate, cartCount, editAddress }: AddAddressPageProps) {
+export function AddAddressPage({ onNavigate, onSaveAddress, cartCount, editAddress }: AddAddressPageProps) {
   const { t, isRTL } = useLanguage();
   const isEdit = !!editAddress;
 
@@ -81,8 +82,23 @@ export function AddAddressPage({ onNavigate, cartCount, editAddress }: AddAddres
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      console.log('Address saved:', formData);
-      onNavigate('addresses');
+      onSaveAddress({
+        id: editAddress?.id,
+        label: formData.label,
+        name: formData.name,
+        phone: formData.phone,
+        governorate: formData.governorate,
+        area: formData.area,
+        block: formData.block,
+        street: formData.street,
+        building: formData.building,
+        floor: formData.floor || undefined,
+        apartment: formData.apartment || undefined,
+        avenue: formData.avenue || undefined,
+        additionalDirections: formData.additionalDirections || undefined,
+        paciNumber: formData.paciNumber || undefined,
+        isDefault: editAddress?.isDefault ?? false
+      });
     }
   };
 

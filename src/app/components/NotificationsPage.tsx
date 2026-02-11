@@ -100,13 +100,13 @@ export function NotificationsPage({ onNavigate, cartCount }: NotificationsPagePr
   const getIconColor = (type: string) => {
     switch (type) {
       case 'order':
-        return 'bg-blue-100 text-blue-600';
+        return 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400';
       case 'offer':
-        return 'bg-orange-100 text-orange-600';
+        return 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400';
       case 'review':
-        return 'bg-yellow-100 text-yellow-600';
+        return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400';
       default:
-        return 'bg-gray-100 text-gray-600';
+        return 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400';
     }
   };
 

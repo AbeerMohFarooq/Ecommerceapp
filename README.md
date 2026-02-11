@@ -12,7 +12,7 @@ The goal of this starter kit is to provide a modern, customizable, and robust fo
 *   ❤️ **Wishlist Functionality**: Allows users to save their favorite items.
 *   💬 **Live Chat Widget**: A built-in chat widget for customer support.
 *   📱 **Responsive & Modern UI**: A clean, mobile-first design built with shadcn/ui components.
-*   🔧 **Backend Ready**: Uses a mock API for development but includes a comprehensive `API_INTEGRATION_GUIDE.md` for connecting to a real backend.
+*   🔧 **Backend Ready**: Uses a mock API for development and is structured for straightforward backend integration.
 
 ## 🚀 Getting Started
 
@@ -27,14 +27,7 @@ The goal of this starter kit is to provide a modern, customizable, and robust fo
     ```
     The app will be available at `http://localhost:5173`.
 
-## 🛠️ Project Structure & Documentation
-
-To help you navigate the codebase, several documentation files are included:
-
-*   **`FEATURES_DOCUMENTATION.md`**: A detailed list of all implemented features.
-*   **`API_INTEGRATION_GUIDE.md`**: Instructions for connecting the frontend to a real backend API and payment gateways.
-*   **`COMPONENT_MAP.md`**: A textual map of pages to the UI components they use.
-*   **`COMPONENT_DIAGRAM.md`**: A Mermaid diagram visualizing the component relationships.
+## 🛠️ Project Structure
 
 ## 💻 Tech Stack
 

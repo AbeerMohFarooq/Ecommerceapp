@@ -113,14 +113,14 @@ export function DesktopHeader({ currentPage, onNavigate, cartCount, onLogout, is
                 <>
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
                   >
                     <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center">
                       <User className="w-5 h-5 text-white" />
                     </div>
                     <div className="text-left hidden lg:block">
-                      <p className="text-xs text-gray-600">{t('header.hello')}</p>
-                      <p className="text-sm font-semibold">Sarah</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">{t('header.hello')}</p>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">Sarah</p>
                     </div>
                   </button>
 

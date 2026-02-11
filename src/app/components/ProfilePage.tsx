@@ -25,7 +25,7 @@ export function ProfilePage({ onNavigate, cartCount, onLogout }: ProfilePageProp
       icon: CreditCard,
       label: 'Payment Methods',
       description: 'Manage your cards',
-      onClick: () => {}
+      onClick: () => onNavigate('settings')
     },
     {
       icon: Bell,
@@ -43,7 +43,7 @@ export function ProfilePage({ onNavigate, cartCount, onLogout }: ProfilePageProp
       icon: HelpCircle,
       label: 'Help & Support',
       description: 'FAQs and contact',
-      onClick: () => {}
+      onClick: () => onNavigate('settings')
     }
   ];
 

@@ -7,108 +7,15 @@ import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { MobileMenuSheet } from './MobileMenuSheet';
 
 interface HomePageProps {
+  products: Product[];
   onViewProduct: (product: Product) => void;
+  onViewCategory: (category: string) => void;
   onAddToCart: (product: Product) => void;
   cartCount: number;
   onNavigate: (page: Page) => void;
   onLogout: () => void;
   isLoggedIn: boolean;
 }
-
-const products: Product[] = [
-  {
-    id: '1',
-    name: 'Luxury Eau De Parfum',
-    price: 45.500,
-    image: 'https://images.unsplash.com/photo-1719175936556-dbd05e415913?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBwZXJmdW1lJTIwYm90dGxlfGVufDF8fHx8MTc3MDQ0NTE4OHww&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Perfumes',
-    description: 'Premium French perfume with notes of jasmine and sandalwood. Long-lasting fragrance for special occasions.',
-    rating: 4.8,
-    reviews: 127,
-    inStock: true,
-    discount: 15
-  },
-  {
-    id: '2',
-    name: 'Gold Pearl Necklace',
-    price: 89.900,
-    image: 'https://images.unsplash.com/photo-1611012756377-05e2e4269fa3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnb2xkJTIwamV3ZWxyeSUyMG5lY2tsYWNlfGVufDF8fHx8MTc3MDUyNjAzOHww&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Jewelry',
-    description: '18K gold necklace with natural pearls. Elegant design perfect for weddings and formal events.',
-    rating: 4.9,
-    reviews: 85,
-    inStock: true
-  },
-  {
-    id: '3',
-    name: 'Designer Leather Handbag',
-    price: 125.000,
-    image: 'https://images.unsplash.com/photo-1758171692659-024183c2c272?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXNpZ25lciUyMGhhbmRiYWclMjBsdXh1cnl8ZW58MXx8fHwxNzcwNDk0NDc3fDA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Fashion',
-    description: 'Premium Italian leather handbag with gold hardware. Spacious interior with multiple compartments.',
-    rating: 4.7,
-    reviews: 203,
-    inStock: true,
-    discount: 20
-  },
-  {
-    id: '4',
-    name: 'Swiss Automatic Watch',
-    price: 199.000,
-    image: 'https://images.unsplash.com/photo-1760163180940-eecde9eda36c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB3YXRjaCUyMGVsZWdhbnR8ZW58MXx8fHwxNzcwNDcxNTY0fDA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Watches',
-    description: 'Swiss-made automatic watch with sapphire crystal and leather strap. Water-resistant up to 50m.',
-    rating: 5.0,
-    reviews: 156,
-    inStock: true
-  },
-  {
-    id: '5',
-    name: 'Premium Skincare Set',
-    price: 34.750,
-    image: 'https://images.unsplash.com/photo-1643168343279-3f93c2e592ef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxza2luY2FyZSUyMGNvc21ldGljc3xlbnwxfHx8fDE3NzA1NDc1MTV8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Beauty',
-    description: 'Complete skincare routine with natural ingredients. Includes cleanser, toner, serum, and moisturizer.',
-    rating: 4.6,
-    reviews: 342,
-    inStock: true,
-    discount: 10
-  },
-  {
-    id: '6',
-    name: 'Designer Sunglasses',
-    price: 42.500,
-    image: 'https://images.unsplash.com/photo-1732139637217-56c77369e25c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdW5nbGFzc2VzJTIwZmFzaGlvbnxlbnwxfHx8fDE3NzA0NDQ2MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Accessories',
-    description: 'UV400 protection polarized sunglasses. Lightweight frame with premium lenses.',
-    rating: 4.5,
-    reviews: 98,
-    inStock: true
-  },
-  {
-    id: '7',
-    name: 'Premium Arabic Sweets Box',
-    price: 18.500,
-    image: 'https://images.unsplash.com/photo-1595353611262-ff0489f4969a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhcmFiaWMlMjBzd2VldHMlMjBkZXNzZXJ0fGVufDF8fHx8MTc3MDU0NzUxNnww&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Food',
-    description: 'Assorted premium Arabic sweets and baklava. Perfect for gifting during celebrations.',
-    rating: 4.8,
-    reviews: 445,
-    inStock: true
-  },
-  {
-    id: '8',
-    name: 'Wireless Noise-Canceling Headphones',
-    price: 68.900,
-    image: 'https://images.unsplash.com/photo-1723961617032-ef69c454cb31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcmVtaXVtJTIwaGVhZHBob25lc3xlbnwxfHx8fDE3NzA0MzA1MTZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Electronics',
-    description: 'Premium wireless headphones with active noise cancellation. 30-hour battery life.',
-    rating: 4.9,
-    reviews: 567,
-    inStock: true,
-    discount: 25
-  }
-];
 
 const categories = [
   { name: 'Fashion', icon: '👗', color: 'bg-pink-100' },
@@ -119,9 +26,19 @@ const categories = [
   { name: 'Food', icon: '🍰', color: 'bg-orange-100' }
 ];
 
-export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate, onLogout, isLoggedIn }: HomePageProps) {
+export function HomePage({
+  products,
+  onViewProduct,
+  onViewCategory,
+  onAddToCart,
+  cartCount,
+  onNavigate,
+  onLogout,
+  isLoggedIn
+}: HomePageProps) {
   const { t, isRTL } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const featuredProducts = products.slice(0, 8);
 
   return (
     <div className="pb-20 md:pb-8">
@@ -133,7 +50,7 @@ export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate, on
               <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
                 <SheetTrigger asChild>
                   <button className="md:hidden">
-                    <Menu className="w-6 h-6 text-gray-700" />
+                    <Menu className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                   </button>
                 </SheetTrigger>
                 <SheetContent side={isRTL ? 'right' : 'left'} className="p-0 w-[300px] sm:w-[350px]">
@@ -153,7 +70,7 @@ export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate, on
                 onClick={() => onNavigate('cart')}
                 className="relative md:flex hidden"
               >
-                <ShoppingCart className="w-6 h-6 text-gray-700" />
+                <ShoppingCart className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 {cartCount > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                     {cartCount}
@@ -166,15 +83,15 @@ export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate, on
           {/* Search Bar */}
           <div className="relative">
             <Search className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400`} />
-            <input
-              type="text"
-              placeholder={t('home.search')}
-              onClick={() => onNavigate('search')}
-              readOnly
-              className={`w-full ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer`}
-            />
+              <input
+                type="text"
+                placeholder={t('home.search')}
+                onClick={() => onNavigate('search')}
+                readOnly
+                className={`w-full ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer transition-colors`}
+              />
+            </div>
           </div>
-        </div>
       </header>
 
       <div className="max-w-7xl mx-auto px-4">
@@ -205,12 +122,12 @@ export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate, on
             {categories.map((category) => (
               <button
                 key={category.name}
-                onClick={() => onNavigate('categories')}
+                onClick={() => onViewCategory(category.name)}
                 className={`${category.color} rounded-xl p-4 flex flex-col items-center gap-2 hover:scale-105 transition-transform active:scale-95`}
                 title={`Browse ${category.name}`}
               >
                 <span className="text-3xl">{category.icon}</span>
-                <span className="text-sm font-medium text-gray-700">{t(`category.${category.name.toLowerCase()}`)}</span>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{t(`category.${category.name.toLowerCase()}`)}</span>
               </button>
             ))}
           </div>
@@ -229,7 +146,7 @@ export function HomePage({ onViewProduct, onAddToCart, cartCount, onNavigate, on
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {products.map((product) => (
+            {featuredProducts.map((product) => (
               <div
                 key={product.id}
                 className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg dark:hover:shadow-xl transition-shadow dark:hover:border-gray-600"

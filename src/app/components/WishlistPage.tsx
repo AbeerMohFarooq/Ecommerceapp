@@ -72,7 +72,7 @@ export function WishlistPage({ onNavigate, onAddToCart, cartCount }: WishlistPag
                   )}
                   <button
                     onClick={() => removeFromWishlist(product.id)}
-                    className="absolute top-2 right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+                    className="absolute top-2 right-2 w-8 h-8 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
                   >
                     <Heart className="w-4 h-4 fill-red-500 text-red-500" />
                   </button>

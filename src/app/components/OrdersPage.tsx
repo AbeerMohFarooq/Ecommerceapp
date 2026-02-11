@@ -1,4 +1,5 @@
 import { Package, Clock, CheckCircle, XCircle, ChevronRight } from 'lucide-react';
+import { useMemo, useState } from 'react';
 import type { Page } from '../App';
 
 interface OrdersPageProps {
@@ -74,12 +75,30 @@ const statusConfig = {
     bgColor: 'bg-red-50',
     borderColor: 'border-red-200'
   }
-};
+} as const;
+
+type FilterStatus = 'all' | keyof typeof statusConfig;
+
+const filters: { label: string; value: FilterStatus }[] = [
+  { label: 'All', value: 'all' },
+  { label: 'Processing', value: 'processing' },
+  { label: 'Shipping', value: 'shipping' },
+  { label: 'Delivered', value: 'delivered' },
+  { label: 'Cancelled', value: 'cancelled' }
+];
 
 export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
+  const [activeFilter, setActiveFilter] = useState<FilterStatus>('all');
+
+  const filteredOrders = useMemo(() => {
+    if (activeFilter === 'all') {
+      return orders;
+    }
+    return orders.filter(order => order.status === activeFilter);
+  }, [activeFilter]);
+
   return (
     <div className="pb-20 md:pb-8 min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors">
-      {/* Mobile Header */}
       <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 md:hidden transition-colors">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">My Orders</h1>
@@ -87,38 +106,36 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
       </header>
 
       <div className="max-w-4xl mx-auto px-4 py-6">
-        {/* Order Status Filters */}
         <div className="flex gap-2 overflow-x-auto mb-6 pb-2 scrollbar-hide">
-          {['All', 'Processing', 'Shipping', 'Delivered', 'Cancelled'].map((filter) => (
+          {filters.map(filter => (
             <button
-              key={filter}
+              key={filter.value}
+              onClick={() => setActiveFilter(filter.value)}
               className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors ${
-                filter === 'All'
+                activeFilter === filter.value
                   ? 'bg-emerald-600 text-white hover:bg-emerald-700 dark:hover:bg-emerald-600'
                   : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-emerald-600 dark:hover:border-emerald-500'
               }`}
             >
-              {filter}
+              {filter.label}
             </button>
           ))}
         </div>
 
-        {/* Orders List */}
-        {orders.length === 0 ? (
+        {filteredOrders.length === 0 ? (
           <div className="text-center py-20">
-            <div className="text-6xl mb-4">📦</div>
-            <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">No orders yet</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">Start shopping to see your orders here!</p>
+            <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">No orders in this status</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">Try another filter to see your order history.</p>
             <button
-              onClick={() => onNavigate('home')}
+              onClick={() => setActiveFilter('all')}
               className="bg-emerald-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors"
             >
-              Start Shopping
+              Clear Filter
             </button>
           </div>
         ) : (
           <div className="space-y-4">
-            {orders.map((order) => {
+            {filteredOrders.map(order => {
               const status = statusConfig[order.status as keyof typeof statusConfig];
               const StatusIcon = status.icon;
 
@@ -128,7 +145,6 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
                   className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg dark:hover:shadow-xl transition-all"
                 >
                   <div className="p-4">
-                    {/* Order Header */}
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <p className="font-bold text-lg text-gray-900 dark:text-white">{order.id}</p>
@@ -142,7 +158,6 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
                       </div>
                     </div>
 
-                    {/* Order Details */}
                     <div className="flex gap-4 mb-3">
                       <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden flex-shrink-0">
                         <img
@@ -166,7 +181,6 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
                       </div>
                     </div>
 
-                    {/* Tracking Progress (for active orders) */}
                     {(order.status === 'processing' || order.status === 'shipping') && (
                       <div className="mb-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg transition-colors">
                         <div className="flex items-center justify-between mb-2">
@@ -181,24 +195,32 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
                             style={{
                               width: order.status === 'processing' ? '50%' : '75%'
                             }}
-                          ></div>
+                          />
                         </div>
                       </div>
                     )}
 
-                    {/* Action Buttons */}
                     <div className="flex gap-2">
-                      <button className="flex-1 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg font-medium text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors flex items-center justify-center gap-2">
+                      <button
+                        onClick={() => onNavigate('orderDetail')}
+                        className="flex-1 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg font-medium text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors flex items-center justify-center gap-2"
+                      >
                         View Details
                         <ChevronRight className="w-4 h-4" />
                       </button>
                       {order.status === 'delivered' && (
-                        <button className="flex-1 py-2.5 bg-emerald-600 text-white rounded-lg font-medium text-sm hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors">
+                        <button
+                          onClick={() => onNavigate('home')}
+                          className="flex-1 py-2.5 bg-emerald-600 text-white rounded-lg font-medium text-sm hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors"
+                        >
                           Order Again
                         </button>
                       )}
                       {order.status === 'shipping' && (
-                        <button className="flex-1 py-2.5 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                        <button
+                          onClick={() => onNavigate('orderDetail')}
+                          className="flex-1 py-2.5 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                        >
                           Track Order
                         </button>
                       )}
@@ -210,22 +232,21 @@ export function OrdersPage({ onNavigate, cartCount }: OrdersPageProps) {
           </div>
         )}
 
-        {/* Help Section */}
         <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 transition-colors">
           <h3 className="font-bold text-lg mb-4 text-gray-900 dark:text-white">Need Help?</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <button className="flex items-center gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-emerald-600 dark:hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors">
               <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center">
-                <span className="text-xl">📞</span>
+                <span className="text-xl">Support</span>
               </div>
               <div className="text-left">
                 <p className="font-medium text-sm text-gray-900 dark:text-white">Contact Support</p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">We're here to help</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">We are here to help</p>
               </div>
             </button>
             <button className="flex items-center gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-emerald-600 dark:hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors">
               <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center">
-                <span className="text-xl">❓</span>
+                <span className="text-xl">FAQ</span>
               </div>
               <div className="text-left">
                 <p className="font-medium text-sm text-gray-900 dark:text-white">FAQs</p>
